@@ -1,0 +1,67 @@
+############pseudo code and ideas for sail bot##############
+
+INPUTS
+	User commands
+	apparent wind velocity
+	heel angle
+	boat's velocity
+	camera, radar, and lidar sensors
+		determine position of marks, other boats, and obstacles
+	GPS
+
+OUTPUTS
+    Execute Mechanical Control Operations
+	    jib and main sheet, rudder actuation, backstay and other tuning
+	Display data to the user
+		point of sail, speed, wind direction, compase heading
+	
+MVP (minimum viable product)
+    get the boat to sail on a straight beam reach course autonomusly
+			
+	#control main and jib angles of attack
+	if luffing. check sheet tensions by analysing the resistance on the motor:
+		main.sheet()
+		jib.sheet()
+	if over powered, heel angle > specific limit: 
+		main.ease()
+		jib.ease()
+	if stalling ease sails. speed < expected speed:
+		main.ease()
+		jib.ease()
+    #verify sail position with expected point of sail from apparent wind
+    #balance helm against weather and lee helm
+	if weather helm indicated by excessive rudder angle:
+		main.ease()
+		jib.sheet()
+	if lee helm indicated by excessive rudder angle:
+	    main.sheet()
+		jib.ease()
+    #measure apparent wind direction, and calculate true wind direction.
+    #adjust course accordingly.
+    trueWind = appWind - boatVel  #these will all have to be vectors somehow
+	#sailingAngle = calculate the angle between boatVel and trueWind
+	sailingAngle = invCos(boatVel*trueWind/(|boatVel||trueWind|))
+	#control direction of travel, for beam reach, sailing Angle = 90 degrees
+	if sailingAngle > intendedHeading + 2°:
+		rudder left
+	if sailingAngle < intendedHeading - 2°:
+        rudder right
+
+
+#May be able to do a first round of code testing with artifical wind conditions
+#from a txt file
+
+REQUIRED ELECTRICAL HARDWARE
+    accelerometer
+	compase
+	windicator
+
+FUTURE CATEGORIES
+    autonomus navigation
+	collision avodiance
+	station keeping
+	GUI
+	upwind
+	    tacking logic based on compase heading and course position, opponents
+    downwind
+	starting sequence
